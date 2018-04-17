@@ -7,11 +7,14 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class Whatspy:
     def __init__(self, browser):
-        if (browser[0]):
+        browser = browser.lower()
+        if browser == "firefox":
             self.driver = webdriver.Firefox()
-        elif (browser[1]):
+        elif browser == "chrome":
             self.driver = webdriver.Chrome()
-
+        else:
+            raise Exception("Unknown driver")
+           
     def login(self):
         self.driver.get('https://web.whatsapp.com/')
         input("Scan QR Code to connect with whatsApp. Press Enter after scanning the QR Code.")
@@ -314,14 +317,10 @@ class Whatspy:
 
 
 # browser boolean array. Index 0 for firfox, index 1 for  chrome
-
-
-
-whatspy = Whatspy([False, True])
+whatspy = Whatspy("chrome")
 whatspy.login()
 
 # whatspy.auto_responder(1, False, '7d269ea56f1242ce89349216269ee65a')
-
 
 # whatspy.get_chat("Munib")
 

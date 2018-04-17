@@ -316,7 +316,6 @@ class Whatspy:
             print("Error...")
 
 
-# browser boolean array. Index 0 for firfox, index 1 for  chrome
 whatspy = Whatspy("chrome")
 whatspy.login()
 

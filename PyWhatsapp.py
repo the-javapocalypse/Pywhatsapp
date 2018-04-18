@@ -7,10 +7,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 class Whatspy:
     def __init__(self, browser):
-        if (browser[0]):
+        browser = browser.lower()
+        if browser == "firefox":
             self.driver = webdriver.Firefox()
-        elif (browser[1]):
+        elif browser == "chrome":
             self.driver = webdriver.Chrome()
+<<<<<<< HEAD
 
         self.Class_ChatHead = '_1wjpf'
         self.Class_MsgHead = 'emojitext ellipsify'
@@ -29,6 +31,11 @@ class Whatspy:
         self.Class_Delete = "_1Vw8y"
         self.Class_GetChat = "_9tCEa"
 
+=======
+        else:
+            raise Exception("Unknown driver")
+           
+>>>>>>> b6e0ee111135351357ede9f86bb301e9b5dca075
     def login(self):
         self.driver.get('https://web.whatsapp.com/')
         input("Scan QR Code to connect with whatsApp. Press Enter after scanning the QR Code.")
@@ -333,17 +340,17 @@ class Whatspy:
             print("Error...")
 
 
-# browser boolean array. Index 0 for firfox, index 1 for  chrome
-
-
-
-whatspy = Whatspy([False, True])
+whatspy = Whatspy("chrome")
 whatspy.login()
 
 # whatspy.auto_responder(1, False, '7d269ea56f1242ce89349216269ee65a')
 
+<<<<<<< HEAD
 
 whatspy.get_chat("Munib")
+=======
+# whatspy.get_chat("Munib")
+>>>>>>> b6e0ee111135351357ede9f86bb301e9b5dca075
 
 # whatspy.delete_chat("Hamza Fast")
 # whatspy.unmute_chat("Munib")

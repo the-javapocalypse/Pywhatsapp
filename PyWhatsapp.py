@@ -12,6 +12,23 @@ class Whatspy:
         elif (browser[1]):
             self.driver = webdriver.Chrome()
 
+        self.Class_ChatHead = '_1wjpf'
+        self.Class_MsgHead = 'emojitext ellipsify'
+        self.Class_MsgData = 'message message-chat message-in tail message-chat'
+        self.Class_UnreadMsg = 'chat unread'
+        self.Class_Attach = 'Attach'
+        self.Class_LastSeen = '"pane-chat-header"'
+        self.Class_LastSeenList = ["_3sgkv"]
+        self.Class_Status = "pane-chat-header"
+        self.Class_StatusList = ["selectable-text"]
+        self.Class_Mute1 = "_3I_df"
+        self.Class_Mute2 = "_3DeDN"
+        self.Class_MuteList = ["PNlAR"]
+        self.Class_Block = "_2QrOO"
+        self.Class_Unblock = "_10xEB"
+        self.Class_Delete = "_1Vw8y"
+        self.Class_GetChat = "_9tCEa"
+
     def login(self):
         self.driver.get('https://web.whatsapp.com/')
         input("Scan QR Code to connect with whatsApp. Press Enter after scanning the QR Code.")
@@ -25,7 +42,7 @@ class Whatspy:
 
     def goto_chat_head(self, name):
         try:
-            chatHeads = self.driver.find_elements_by_xpath("//span[@class='_1wjpf']")
+            chatHeads = self.driver.find_elements_by_xpath("//span[@class='" + self.Class_ChatHead + "']")
             for head in chatHeads:
                 if head.text == name:
                     head.click()
@@ -48,13 +65,12 @@ class Whatspy:
 
     def read_last_message(self, of):
         try:
-            msgs = self.driver.find_elements_by_xpath("//span[@class='emojitext ellipsify']")
+            msgs = self.driver.find_elements_by_xpath("//span[@class='" + self.Class_MsgHead + "']")
             for head in msgs:
                 if head.text == of:
                     head.click()
                     break
-            data = self.driver.find_elements_by_xpath(
-                "//div[@class='message message-chat message-in tail message-chat']")
+            data = self.driver.find_elements_by_xpath("//div[@class='" + self.Class_MsgData + "']")
             msg = data[len(data) - 1].text
             print(msg[-7:])
             print(of + " sent '" + msg[:-8].replace("\\n", "") + "' at " + str(msg[-7:]))
@@ -64,7 +80,7 @@ class Whatspy:
     def get_unread_chats_title(self):
         try:
             msgs = []
-            element = self.driver.find_elements_by_xpath("//div[@class='chat unread']")
+            element = self.driver.find_elements_by_xpath("//div[@class='"+self.Class_UnreadMsg+"']")
             for e in element:
                 msgs.append(e.text)
 
@@ -94,7 +110,7 @@ class Whatspy:
     def send_media(self, to, caption, filepath):
         self.goto_chat_head(to)
         time.sleep(3)
-        self.driver.find_element_by_xpath('//*[@title="Attach"]').click()
+        self.driver.find_element_by_xpath('//*[@title="'+self.Class_Attach+'"]').click()
         classname = ['_10anr', 'vidHz', '_3asN5']
         for name in classname:
             try:
@@ -131,9 +147,9 @@ class Whatspy:
     def get_last_seen_of(self, of):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            for classname in ["_3sgkv"]:
+            for classname in self.Class_LastSeenList:
                 print(self.driver.find_element_by_class_name(classname).text)
         except:
             print("Error: Failed to get last seen")
@@ -141,22 +157,22 @@ class Whatspy:
     def get_status_of(self, of):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_Status).click()
             time.sleep(3)
-            for classname in ["selectable-text"]:
+            for classname in self.Class_LastSeenList:
                 print(self.driver.find_elements_by_css_selector('span.' + classname)[1].text)
         except:
             print("Error: Failed to get status")
 
-    def unmute_chat(self, of, muteFor):
+    def mute_chat(self, of, muteFor):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            self.driver.find_element_by_class_name("_3I_df").click()
+            self.driver.find_element_by_class_name(self.Class_Mute1).click()
             time.sleep(0.5)
-            self.driver.find_elements_by_class_name("_3DeDN")[muteFor].click()
-            for classname in ["PNlAR"]:
+            self.driver.find_elements_by_class_name(self.Class_Mute2)[muteFor].click()
+            for classname in self.Class_MuteList:
                 self.driver.find_element_by_class_name(classname).click()
             print("Muted " + of)
         except:
@@ -165,23 +181,25 @@ class Whatspy:
     def unmute_chat(self, of):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            self.driver.find_element_by_class_name("_3I_df").click()
+            self.driver.find_element_by_class_name(self.Class_Mute1).click()
             time.sleep(0.5)
-            self.driver.find_element_by_class_name("PNlAR").click()
-            print("Unuted " + of)
+            for classname in self.Class_MuteList:
+                self.driver.find_element_by_class_name(classname).click()
+            print("Unmuted " + of)
         except:
             print("Error: Failed to un-mute chat")
 
     def block_contact(self, of):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            self.driver.find_element_by_class_name("_2QrOO").click()
+            self.driver.find_element_by_class_name(self.Class_Block).click()
             time.sleep(0.5)
-            self.driver.find_element_by_class_name("PNlAR").click()
+            for classname in self.Class_MuteList:
+                self.driver.find_element_by_class_name(classname).click()
             print("Blocked " + of)
         except:
             print("Error: Failed to block " + of)
@@ -190,11 +208,12 @@ class Whatspy:
 
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            self.driver.find_element_by_class_name("_10xEB").click()
+            self.driver.find_element_by_class_name(self.Class_Unblock).click()
             time.sleep(0.5)
-            self.driver.find_element_by_class_name("PNlAR").click()
+            for classname in self.Class_MuteList:
+                self.driver.find_element_by_class_name(classname).click()
             print("Unblocked " + of)
         except:
             print("Error: Failed to unblock " + of)
@@ -202,11 +221,12 @@ class Whatspy:
     def delete_chat(self, of):
         try:
             self.goto_chat_head(of)
-            self.driver.find_element_by_class_name("pane-chat-header").click()
+            self.driver.find_element_by_class_name(self.Class_LastSeen).click()
             time.sleep(3)
-            self.driver.find_elements_by_class_name("_1Vw8y")[1].click()
+            self.driver.find_elements_by_class_name(self.Class_Delete)[1].click()
             time.sleep(0.5)
-            self.driver.find_element_by_class_name("PNlAR").click()
+            for classname in self.Class_MuteList:
+                self.driver.find_element_by_class_name(classname).click()
             print("Deleted chat of " + of)
         except:
             print("Error: Failed to delete chat of " + of)
@@ -215,7 +235,7 @@ class Whatspy:
         try:
             self.goto_chat_head(of)
             time.sleep(1)
-            self.driver.find_element_by_class_name("_9tCEa").click()
+            self.driver.find_element_by_class_name(self.Class_GetChat).click()
             actions = ActionChains(self.driver)
             for i in range(3):
                 time.sleep(5)
@@ -323,7 +343,7 @@ whatspy.login()
 # whatspy.auto_responder(1, False, '7d269ea56f1242ce89349216269ee65a')
 
 
-# whatspy.get_chat("Munib")
+whatspy.get_chat("Munib")
 
 # whatspy.delete_chat("Hamza Fast")
 # whatspy.unmute_chat("Munib")
@@ -337,4 +357,4 @@ whatspy.login()
 # whatspy.get_status_of("Munib")
 # whatspy.get_unread_chats_title()
 # whatspy.send_media("Munib","Jarvis Test","E:/1.jpg")
-whatspy.spam_bomb("Munib",["Abe Ja"], False ,100)
+whatspy.spam_bomb("Munib", ["Abe Ja"], False, 100)

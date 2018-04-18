@@ -12,8 +12,8 @@ class Whatspy:
             self.driver = webdriver.Firefox()
         elif browser == "chrome":
             self.driver = webdriver.Chrome()
-<<<<<<< HEAD
-
+        else:
+            raise Exception("Unknown driver")
         self.Class_ChatHead = '_1wjpf'
         self.Class_MsgHead = 'emojitext ellipsify'
         self.Class_MsgData = 'message message-chat message-in tail message-chat'
@@ -30,12 +30,7 @@ class Whatspy:
         self.Class_Unblock = "_10xEB"
         self.Class_Delete = "_1Vw8y"
         self.Class_GetChat = "_9tCEa"
-
-=======
-        else:
-            raise Exception("Unknown driver")
            
->>>>>>> b6e0ee111135351357ede9f86bb301e9b5dca075
     def login(self):
         self.driver.get('https://web.whatsapp.com/')
         input("Scan QR Code to connect with whatsApp. Press Enter after scanning the QR Code.")
@@ -345,12 +340,9 @@ whatspy.login()
 
 # whatspy.auto_responder(1, False, '7d269ea56f1242ce89349216269ee65a')
 
-<<<<<<< HEAD
 
 whatspy.get_chat("Munib")
-=======
 # whatspy.get_chat("Munib")
->>>>>>> b6e0ee111135351357ede9f86bb301e9b5dca075
 
 # whatspy.delete_chat("Hamza Fast")
 # whatspy.unmute_chat("Munib")

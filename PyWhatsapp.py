@@ -3,15 +3,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 import time, datetime, random, apiai, json, codecs
 from selenium.webdriver.common.action_chains import ActionChains
-
-
+from selenium.webdriver.chrome.options import Options
+option=Options()
+option.add_argument('user-data-dir=selenium')
 class Whatspy:
     def __init__(self, browser):
         browser = browser.lower()
         if browser == "firefox":
             self.driver = webdriver.Firefox()
         elif browser == "chrome":
-            self.driver = webdriver.Chrome()
+            self.driver = webdriver.Chrome(chrome_options=option)
         else:
             raise Exception("Unknown driver")
         self.Class_ChatHead = '_1wjpf'
